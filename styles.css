@@ -1,0 +1,23 @@
+body, wrapper {
+    min-height:100vh;
+    border: 2px solid black;
+}
+
+.navbar {
+    height: 18vh;
+    border-bottom: 10px solid black;
+    background-color: #09033b;
+    color: white;
+}
+
+.navbar-brand {
+    font-size: 3em;
+}
+
+
+footer {
+    background-color: #020014;
+    border-top: 5px solid black;
+    color: white;
+    text-align: center;
+}
