@@ -1,7 +1,4 @@
 
-
-
- 
  $("#search").click(function(e) {
     e.preventDefault();
 
@@ -71,6 +68,7 @@ $.ajax( {
             colDiv.addClass("col-sm-2");
             var cardDiv = $("<div/>");
             cardDiv.addClass("card text-white bg-info mb-3");
+            $(cardDiv).css("width", "10rem");
             var headerDiv = $("<div/>").text(m);
             headerDiv.addClass("card-header");
             var cardBody = $("<div/>");
@@ -120,5 +118,4 @@ $.ajax( {
         $(".forecast5").html(wf);
         console.log(row);
       } */
-
 
