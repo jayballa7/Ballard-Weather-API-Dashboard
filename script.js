@@ -1,7 +1,19 @@
+var x = document.getElementById("demo");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
 
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;
+}
 
+getLocation();
 
- 
  $("#search").click(function(e) {
     e.preventDefault();
 
@@ -71,54 +83,22 @@ $.ajax( {
             colDiv.addClass("col-sm-2");
             var cardDiv = $("<div/>");
             cardDiv.addClass("card text-white bg-info mb-3");
+            $(cardDiv).css("width", "10rem");
             var headerDiv = $("<div/>").text(m);
             headerDiv.addClass("card-header");
+            $(headerDiv).css("font-weight", "bold");
             var cardBody = $("<div/>");
             cardBody.addClass("card-body");
+            var img = $("<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>")
             var tempForecast = $("<p>").text("Temp: " + val.main.temp + "°F");
-            var humidityForecast = $("<p>").text("Humidity: " + val.main.humidity + " %");
+            var humidityForecast = $("<p>").text("Humidity: " + val.main.humidity + "%");
             
             $(".forecast5").append(colDiv);
             colDiv.append(cardDiv);
             cardDiv.append(headerDiv);
             cardDiv.append(cardBody);
-            cardBody.append(tempForecast);
-            cardBody.append(humidityForecast);
+            cardBody.append(img, tempForecast, humidityForecast);
             
-
-
-
-           /* tempForecast.appendTo(shortList);
-            shortList.appendTo(cardBody);
-            cardBody.appendTo(cardDiv);
-            headerDiv.appendTo(cardDiv);
-            cardDiv.appendTo(colDiv);
-            colDiv.appendTo(row);
-            console.log(tempForecast);*/  
         })
       }
-})    
-
-
-
-}); 
-
-
-/*       success: function(data) {
-        console.log('Received data:', data) // For testing
-        var wf = "";
-        wf += "<h2>" + data.city.name + "</h2>"; // City (displays once)
-        $.each(data.list, function(index, val) {
-          wf += "<p>" // Opening paragraph tag
-          wf += "<b>Day " + index + "</b>: " // Day
-          wf += val.main.temp + "&degC" // Temperature
-          wf += "<span> | " + val.weather[0].description + "</span>"; // Description
-          wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>" // Icon
-          wf += "</p>" // Closing paragraph tag
-        });
-        var row = document.getElementsByClassName("forecast5");
-        $(".forecast5").html(wf);
-        console.log(row);
-      } */
-
-
+})  
