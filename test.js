@@ -5,17 +5,17 @@ var cityList = $("#city-list");
 var value = localStorage.getItem("city");
 var pvalue = JSON.parse(value);
 
-if (pvalue != null) {
-    for(var i=0; i <pvalue.length;i++) {
-    cityList.prepend("<p>" + pvalue[i] + "</p>");
-    //calling the weather for last searched city
-    storageCity();
+if(pvalue != null) {
+for(var i=0; i <pvalue.length;i++) {
+    cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list
 };
-} else {
-    console.log("There are no items in local storage");
-}
+};
 
-//click event when user searches for a city. Generates weather forecast.
+if (pvalue != null) {
+    storageCity(); //calls function to display weather of last city searched
+};
+
+//click event when user searches for a city. Generates current weather and 5-day forecast.
  $("#search").click(function(e) {
     e.preventDefault();
 
@@ -26,18 +26,7 @@ if (pvalue != null) {
     cities.push(city);
     localStorage.setItem("city", JSON.stringify(cities));
 
-/*function displayCard() {
-if(pvalue = null) {
 buildCard();
-} else if (city == pvalue[pvalue.length-1]) {
-    console.log("City is the same");
-} else {
-    buildCard();
-}
-};
-
-displayCard(); */
-
 
 //if card exists, create another function that deletes it and add to the new one
 //need page load method
@@ -50,7 +39,6 @@ function buildCard() {
     cardtitle1.addClass("card-title");
     var conditionList = $("<ul/>");
     conditionList.addClass("list-group list-group-flush");
-
 
     $(".mainWeather").prepend(card1);
     card1.append(cardbody1, conditionList);
@@ -137,7 +125,6 @@ function storageCity() {
     card1.addClass("card");
     var cardbody1 = $("<div/>");
     cardbody1.addClass("card-body");
-    //var cardtitle1 = $("<h5/>").text(pvalue.charAt(0).toUpperCase() + pvalue.slice(1) + " " + "(" + currentDay + ")");
     var cardtitle1 = $("<h5/>").text(pvalue[pvalue.length - 1].charAt(0).toUpperCase() + pvalue[pvalue.length - 1].slice(1) + " " + "(" + currentDay + ")");
     cardtitle1.addClass("card-title");
     var conditionList = $("<ul/>");
