@@ -67,7 +67,9 @@ $.ajax ( {
         }).then(function(result) {
             console.log(result);
         
-//populate temp, humidity, wind speed and UV index   
+//populate weather icon, temp, humidity, wind speed and UV index
+    var mainImg = $("<img src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png'>");
+    mainImg.appendTo(cardtitle1);
     var stats = ["Temperature: " + response["main"]["temp"] + "°F", "Humidity: " + response["main"]["humidity"] + "%", "Windspeed: " + response["wind"]["speed"] + " MPH", "UV Index: " + result["0"]["value"]];
     $.each(stats, function(i) {
         var li = $("<li/>")
