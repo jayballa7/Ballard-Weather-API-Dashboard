@@ -13,7 +13,8 @@ if(value == null) {
 
 if(pvalue != null) {
 for(var i=0; i <pvalue.length;i++) {
-    cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list
+    //cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list
+    cityList.prepend('<p class="city-values">' + pvalue[i] +'<p/>');; //adds cities from local storage to list
 };
 };
 
@@ -24,13 +25,12 @@ if (pvalue != null) {
 
 document.addEventListener('click', function (event) {
 
-	if (event.target.matches("p")) {
-        // Run your code to open a modal
+	if (event.target.matches(".city-values")) {
         console.log("This works!");
         deleteCity();
-        //buildCard(p.text());
+        console.log(event.target.textContent);
+        buildCard(event.target.textContent);
 	}
-
 }, false);
 
 
