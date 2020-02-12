@@ -6,6 +6,7 @@ var cityList = $("#city-list");
 var value = localStorage.getItem("city");
 var pvalue = JSON.parse(value);
 
+
 if(value == null) {
     $(".forecastHeader").hide(); //hides "5 Day Forecast" html
 }
@@ -19,6 +20,19 @@ for(var i=0; i <pvalue.length;i++) {
 if (pvalue != null) {
     buildCard(pvalue[pvalue.length - 1]); //calls function to display weather of last city searched
 };
+
+
+document.addEventListener('click', function (event) {
+
+	if (event.target.matches("p")) {
+        // Run your code to open a modal
+        console.log("This works!");
+        deleteCity();
+        //buildCard(p.text());
+	}
+
+}, false);
+
 
 //function to create main weather card and 5 day forecast card
 function buildCard(city) {
