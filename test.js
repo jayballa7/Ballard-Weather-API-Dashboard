@@ -4,21 +4,35 @@ let currentDay = moment().format("L"); //today's date
 var cities = JSON.parse(localStorage.getItem("city")) || [];
 var cityList = $("#city-list");
 var value = localStorage.getItem("city");
+//var pvalue = JSON.parse(value);
 var pvalue = JSON.parse(value);
+
 
 if(value == null) {
     $(".forecastHeader").hide(); //hides "5 Day Forecast" html
 }
 
 if(pvalue != null) {
-for(var i=0; i <pvalue.length;i++) {
-    cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list
-};
+    for(var i=0; i <pvalue.length;i++) {
+        //cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list;
+        cityList.prepend('<p class="city-values">' + pvalue[i] +'<p/>');
+    };
 };
 
 if (pvalue != null) {
     buildCard(pvalue[pvalue.length - 1]); //calls function to display weather of last city searched
 };
+
+// click on previously searched cities to display their weather
+document.addEventListener('click', function (event) {
+
+	if (event.target.matches(".city-values")) {
+        console.log("This works!");
+        deleteCity();
+        console.log(event.target.textContent);
+        buildCard(event.target.textContent);
+	}
+}, false);
 
 //function to create main weather card and 5 day forecast card
 function buildCard(city) {
@@ -53,7 +67,9 @@ $.ajax ( {
         }).then(function(result) {
             console.log(result);
         
-//populate temp, humidity, wind speed and UV index   
+//populate temp, humidity, wind speed and UV index  
+    var mainImg = $("<img src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png'>");
+    mainImg.appendTo(cardtitle1); 
     var stats = ["Temperature: " + response["main"]["temp"] + "°F", "Humidity: " + response["main"]["humidity"] + "%", "Windspeed: " + response["wind"]["speed"] + " MPH", "UV Index: " + result["0"]["value"]];
     $.each(stats, function(i) {
         var li = $("<li/>")
@@ -122,7 +138,7 @@ function deleteCity() {
         if(city != $(this).text()) {
              cityBox = $("<p>").text(city);
         } else {
-
+            console.log("False");
         }
     })
     cityList.prepend(cityBox);

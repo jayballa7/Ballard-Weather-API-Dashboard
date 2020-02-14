@@ -1,31 +1,46 @@
 let currentDay = moment().format("L"); //today's date
 
+//populate cities previously searched for
 var cities = JSON.parse(localStorage.getItem("city")) || [];
 var cityList = $("#city-list");
 var value = localStorage.getItem("city");
+//var pvalue = JSON.parse(value);
 var pvalue = JSON.parse(value);
 
+
 if(value == null) {
-    $(".forecastHeader").hide();
+    $(".forecastHeader").hide(); //hides "5 Day Forecast" html
 }
 
 if(pvalue != null) {
-for(var i=0; i <pvalue.length;i++) {
-    cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list
-};
+    for(var i=0; i <pvalue.length;i++) {
+        //cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list;
+        cityList.prepend('<p class="city-values">' + pvalue[i] +'<p/>');
+    };
 };
 
 if (pvalue != null) {
     buildCard(pvalue[pvalue.length - 1]); //calls function to display weather of last city searched
 };
 
+// click on previously searched cities to display their weather
+document.addEventListener('click', function (event) {
+
+	if (event.target.matches(".city-values")) {
+        console.log("This works!");
+        deleteCity();
+        console.log(event.target.textContent);
+        buildCard(event.target.textContent);
+	}
+}, false);
+
+//function to create main weather card and 5 day forecast card
 function buildCard(city) {
-    $(".forecastHeader").show();
+    $(".forecastHeader").show(); //displays "5 Day Forecast" html
     var card1 = $("<div/>");
     card1.addClass("card");
     var cardbody1 = $("<div/>");
     cardbody1.addClass("card-body");
-    //var cardtitle1 = $("<h5/>").text(pvalue[pvalue.length - 1].charAt(0).toUpperCase() + pvalue[pvalue.length - 1].slice(1) + " " + "(" + currentDay + ")");
     var cardtitle1 = $("<h5/>").text(city.charAt(0).toUpperCase() + city.slice(1) + " " + "(" + currentDay + ")");
     cardtitle1.addClass("card-title");
     var conditionList = $("<ul/>");
@@ -37,7 +52,7 @@ function buildCard(city) {
 
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=775f213dfab0fee9670d3eb1a19750f0&units=imperial";
 
-
+//get UV index
 $.ajax ( {
 	url: queryURL,
     method: "GET",
@@ -45,14 +60,16 @@ $.ajax ( {
         let lat = response["coord"]["lat"];
         let lon = response["coord"]["lon"];
         var uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=1f612d8ce7686dee99196825b894d777&lat=" + lat + "&lon=" + lon + "&cnt=4";
-        
+
         $.ajax ( {
             url: uvIndexURL,
             method: "GET",
         }).then(function(result) {
             console.log(result);
         
-    
+//populate temp, humidity, wind speed and UV index  
+    var mainImg = $("<img src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png'>");
+    mainImg.appendTo(cardtitle1); 
     var stats = ["Temperature: " + response["main"]["temp"] + "°F", "Humidity: " + response["main"]["humidity"] + "%", "Windspeed: " + response["wind"]["speed"] + " MPH", "UV Index: " + result["0"]["value"]];
     $.each(stats, function(i) {
         var li = $("<li/>")
@@ -65,6 +82,7 @@ $.ajax ( {
     })
     }
 })
+//create 5 day weather forecast
 $.ajax( {
     url: "https://api.openweathermap.org/data/2.5/forecast",
     method: "GET",
@@ -102,6 +120,7 @@ $.ajax( {
 })  
 };
 
+//deletes previous code from buildCard function
 function deleteCity() {
     $(".mainWeather > .card").remove();
     $(".forecast5").children("div").remove();
@@ -119,15 +138,12 @@ function deleteCity() {
         if(city != $(this).text()) {
              cityBox = $("<p>").text(city);
         } else {
-            
+            console.log("False");
         }
     })
     cityList.prepend(cityBox);
     cities.push(city);
     localStorage.setItem("city", JSON.stringify(cities));
-
-
-
 
 deleteCity();
 
