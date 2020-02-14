@@ -14,8 +14,7 @@ if(value == null) {
 
 if(pvalue != null) {
     for(var i=0; i <pvalue.length;i++) {
-        //cityList.prepend("<p>" + pvalue[i] + "</p>"); //adds cities from local storage to list;
-        cityList.prepend('<p class="city-values">' + pvalue[i] +'<p/>');
+        cityList.prepend('<p class="city-values">' + pvalue[i] +'<p/>'); //adds cities from local storage to list
     };
 };
 
@@ -67,7 +66,7 @@ $.ajax ( {
         }).then(function(result) {
             console.log(result);
         
-//populate temp, humidity, wind speed and UV index  
+//populate weather icon, temp, humidity, wind speed and UV index  
     var mainImg = $("<img src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png'>");
     mainImg.appendTo(cardtitle1); 
     var stats = ["Temperature: " + response["main"]["temp"] + "°F", "Humidity: " + response["main"]["humidity"] + "%", "Windspeed: " + response["wind"]["speed"] + " MPH", "UV Index: " + result["0"]["value"]];
