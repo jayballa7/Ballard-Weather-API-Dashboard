@@ -54,7 +54,7 @@ function buildCard(city) {
     card1.append(cardbody1, conditionList);
     cardbody1.append(cardtitle1); 
 
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=775f213dfab0fee9670d3eb1a19750f0&units=imperial";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=775f213dfab0fee9670d3eb1a19750f0&units=imperial";
 
 //get UV index
 $.ajax ( {
