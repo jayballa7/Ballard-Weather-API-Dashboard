@@ -1,10 +1,10 @@
 let currentDay = moment().format("L"); //today's date
+let weekday = moment().format('dddd'); //day of the week
 
 //populate cities previously searched for
 var cities = JSON.parse(localStorage.getItem("city")) || [];
 var cityList = $("#city-list");
 var value = localStorage.getItem("city");
-//var pvalue = JSON.parse(value);
 var pvalue = JSON.parse(value);
 
 
@@ -15,6 +15,13 @@ if(value == null) {
 if(pvalue != null) {
     for(var i=0; i <pvalue.length;i++) {
         cityList.prepend('<p class="city-values">' + pvalue[i] +'<p/>'); //adds cities from local storage to list
+    
+        $(".city-values").hover(function(){
+            $(this).css("background-color", "#1bd7de");
+            }, function(){
+            $(this).css("background-color", "white");
+          });
+
     };
 };
 
@@ -25,12 +32,10 @@ if (pvalue != null) {
 // click on previously searched cities to display their weather
 document.addEventListener('click', function (event) {
 
-	if (event.target.matches(".city-values")) {
-        console.log("This works!");
+    if (event.target.matches(".city-values")) {
         deleteCity();
-        console.log(event.target.textContent);
         buildCard(event.target.textContent);
-	}
+    }
 }, false);
 
 //function to create main weather card and 5 day forecast card
@@ -40,7 +45,7 @@ function buildCard(city) {
     card1.addClass("card");
     var cardbody1 = $("<div/>");
     cardbody1.addClass("card-body");
-    var cardtitle1 = $("<h5/>").text(city.charAt(0).toUpperCase() + city.slice(1) + " " + "(" + currentDay + ")");
+    var cardtitle1 = $("<h5/>").text(city.charAt(0).toUpperCase() + city.slice(1) + " " + "(" + weekday + " " + currentDay + ")");
     cardtitle1.addClass("card-title");
     var conditionList = $("<ul/>");
     conditionList.addClass("list-group list-group-flush");
@@ -53,7 +58,7 @@ function buildCard(city) {
 
 //get UV index
 $.ajax ( {
-	url: queryURL,
+    url: queryURL,
     method: "GET",
     success: function(response) {
         let lat = response["coord"]["lat"];
@@ -93,13 +98,14 @@ $.ajax( {
       },
       success: function(data) {
         $.each(data.list, function(index, val) {
-            m = moment().add(1 + index, "days").format("L");  
+            m = moment().add(1 + index, "days").format("L"); 
+            w = moment().add(1 + index, "days").format('dddd');
             var colDiv = $("<div/>");
             colDiv.addClass("col-sm-2");
             var cardDiv = $("<div/>");
             cardDiv.addClass("card text-white bg-info mb-3");
             $(cardDiv).css("width", "10rem");
-            var headerDiv = $("<div/>").text(m);
+            var headerDiv = $("<div/>").text(w + " " + m);
             headerDiv.addClass("card-header");
             $(headerDiv).css("font-weight", "bold");
             var cardBody = $("<div/>");
@@ -126,7 +132,7 @@ function deleteCity() {
 }
 
 //click event when user searches for a city. Generates current weather and 5-day forecast.
- $("#search").click(function(e) {
+$("#search").click(function(e) {
     e.preventDefault();
 
 
