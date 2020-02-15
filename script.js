@@ -63,7 +63,7 @@ $.ajax ( {
     success: function(response) {
         let lat = response["coord"]["lat"];
         let lon = response["coord"]["lon"];
-        var uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=1f612d8ce7686dee99196825b894d777&lat=" + lat + "&lon=" + lon + "&cnt=4";
+        var uvIndexURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?appid=1f612d8ce7686dee99196825b894d777&lat=" + lat + "&lon=" + lon + "&cnt=4";
 
         $.ajax ( {
             url: uvIndexURL,
