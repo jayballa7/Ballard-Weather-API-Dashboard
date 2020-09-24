@@ -1,4 +1,5 @@
 # Ballard-Weather-API-Dashboard
+Visit the site: https://jayballa7.github.io/Ballard-Weather-API-Dashboard/
 
 ## Table of contents
 * #general-info
